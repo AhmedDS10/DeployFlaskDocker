@@ -21,24 +21,20 @@ RUN apt-get update && \
 # Set working directory
 WORKDIR /app
 
-# Copy project files
+# Copy local files to container
 COPY . /app
 
 # Create Python virtual environment
 RUN python3 -m venv venv
 
-# Activate venv, upgrade pip, install requirements
+# Activate virtual environment, upgrade pip, and install requirements
 RUN /bin/bash -c "source venv/bin/activate && \
     pip install --upgrade pip && \
     pip install -r requirements.txt"
 
-# Environment variable for venv
+# Set environment variable to automatically activate venv
 ENV VIRTUAL_ENV=/app/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
-
-# SQLite instance directory
-RUN mkdir -p /app/instance
-VOLUME ["/app/instance"]
 
 # Copy entrypoint script
 COPY docker-entrypoint.sh /app/docker-entrypoint.sh
