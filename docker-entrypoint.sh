@@ -1,9 +1,6 @@
 #!/bin/bash
 set -e
 
-echo ">>> Ensuring instance directory exists..."
-mkdir -p /app/instance
-
 echo ">>> Running Flask database migrations..."
 flask db init || true
 flask db migrate -m "Auto migration" || true
